@@ -40,10 +40,17 @@ class Servicio(models.Model):
     nombre=models.CharField(max_length=20)
     valorHora=models.FloatField()
 
+class Cliente(models.Model):
+    ruc_cedula=models.IntegerField(primary_key=True)
+    nombre=models.CharField(max_length=50)
+    apellido=models.CharField(max_length=60)
+    responsable=models.CharField(max_length=60)
+    direccion=models.CharField(max_length=100)
+
 class Reporte(models.Model):
     nroReporte=models.IntegerField(primary_key=True)
-    cliente=models.IntegerField()
-    empleado=models.IntegerField()
+    cliente=models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    empleado=models.ForeignKey(Empleado, on_delete=models.CASCADE)
     fecha=models.DateField()
     ordenTrabajo=models.CharField(max_length=50)
     horaInicio=models.DateField()
@@ -56,25 +63,10 @@ class Reporte(models.Model):
 
 class ReporteDetalle(models.Model):
     idDetalleR=models.IntegerField(primary_key=True)
-    nroReporte=models.IntegerField()
+    nroReporte=models.ForeignKey(Reporte, on_delete=models.CASCADE)
     rubro=models.IntegerField()
     descripcion=models.CharField(max_length=200)
     tiempoTotal=models.TimeField()
-
-
-class Cliente(models.Model):
-    ruc_cedula=models.IntegerField(primary_key=True)
-    nombre=models.CharField(max_length=50)
-    apellido=models.CharField(max_length=60)
-    responsable=models.CharField(max_length=60)
-    direccion=models.CharField(max_length=100)
-
-class CompraProducto(models.Model):
-    idCompra=models.IntegerField(primary_key=True)
-    idCliente=models.IntegerField()
-    idProducto=models.IntegerField()
-    cantidad=models.IntegerField()
-    valorTotal=models.FloatField()
 
 class Producto(models.Model):
     idProducto=models.IntegerField(primary_key=True)
@@ -84,9 +76,16 @@ class Producto(models.Model):
     stock=models.IntegerField()
     descripcion=models.CharField(max_length=200)
 
+class CompraProducto(models.Model):
+    idCompra=models.IntegerField(primary_key=True)
+    idCliente=models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    idProducto=models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad=models.IntegerField()
+    valorTotal=models.FloatField()
+
 class Contato(models.Model):
     idContato=models.IntegerField(primary_key=True)
-    idCliente=models.IntegerField()
+    idCliente=models.ForeignKey(Cliente, on_delete=models.CASCADE)       
     estado=models.BooleanField()
     fechaContrato=models.DateField()
     imagenContrato=models.CharField(max_length=50)
