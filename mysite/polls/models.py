@@ -14,7 +14,7 @@ class Empleado(models.Model):
     responsable=models.BooleanField()
 
     def __str__(self):
-        return self.idEmpleado
+        return str(self.idEmpleado)
 
 
 "  question = models.ForeignKey(Question, on_delete=models.CASCADE)"
@@ -85,7 +85,7 @@ class CompraProducto(models.Model):
 
 class Contato(models.Model):
     idContato=models.IntegerField(primary_key=True)
-    idCliente=models.ForeignKey(Cliente, on_delete=models.CASCADE)       
+    idCliente=models.ForeignKey(Cliente, on_delete=models.CASCADE)
     estado=models.BooleanField()
     fechaContrato=models.DateField()
     imagenContrato=models.CharField(max_length=50)
